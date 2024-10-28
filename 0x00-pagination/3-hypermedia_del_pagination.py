@@ -47,18 +47,18 @@ class Server:
         assert index is not None and 0 <= index < len(self.indexed_dataset())
 
         data = []
-        current_index = index
+        cur_idx = index
         count = 0
 
         # Loop to gather items for the current page, adapting to any deletions
-        while count < page_size and current_index < len(self.indexed_dataset()):
-            item = self.indexed_dataset().get(current_index)
+        while count < page_size and cur_idx < len(self.indexed_dataset()):
+            item = self.indexed_dataset().get(cur_idx)
             if item is not None:
                 data.append(item)
                 count += 1
-            current_index += 1
+            cur_idx += 1
 
-        next_index = current_index if current_index < len(self.indexed_dataset()) else None
+        next_index = cur_idx if cur_idx < len(self.indexed_dataset()) else None
 
         return {
             "index": index,
