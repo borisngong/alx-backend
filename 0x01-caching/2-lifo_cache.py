@@ -1,35 +1,36 @@
 #!/usr/bin/env python3
-""" LIFO Cache Implementation """
+"""Last-In First-Out caching module.
+"""
+from collections import OrderedDict
 from base_caching import BaseCaching
 
 
 class LIFOCache(BaseCaching):
-    """ LIFO caching system """
-
+    """
+    LIFO caching system
+    """
     def __init__(self):
-        """ Initialize """
+        """Initializes the cache"""
         super().__init__()
-        self.last_key = None  # Keep track of the last added key
+        self.cache_data = OrderedDict()
 
     def put(self, key, item):
-        """ Add an item in the cache """
+        """
+        Adds an item in the cache
+        """
         if key is None or item is None:
             return
 
-        # Add item to the cache and update the last added key
+        # Add the item and check for capacity overflow
         self.cache_data[key] = item
-        if key in self.cache_data:
-            self.last_key = key
+        self.cache_data.move_to_end(key, last=True)
 
-        # Check if we need to discard the last item added
         if len(self.cache_data) > BaseCaching.MAX_ITEMS:
-            if self.last_key is not None:
-                del self.cache_data[self.last_key]
-                print(f"DISCARD: {self.last_key}")
-                self.last_key = key
+            last_key, _ = self.cache_data.popitem(last=True)
+            print("DISCARD:", last_key)
 
     def get(self, key):
-        """ Get an item by key """
-        if key is None or key not in self.cache_data:
-            return None
-        return self.cache_data.get(key)
+        """
+        Retrieves an item by key
+        """
+        return self.cache_data.get(key, None)
