@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Last-In First-Out caching module.
+"""
+Module for working with LIFO cache  system
 """
 from collections import OrderedDict
 from base_caching import BaseCaching
@@ -7,7 +8,7 @@ from base_caching import BaseCaching
 
 class LIFOCache(BaseCaching):
     """
-    LIFO caching system
+    LIFO cache system with item discarding on overflow
     """
     def __init__(self):
         """Initializes the cache"""
@@ -22,15 +23,16 @@ class LIFOCache(BaseCaching):
             return
 
         # Add the item and check for capacity overflow
+        if key not in self.cache_data:
+            if len(self.cache_data) + 1 > BaseCaching.MAX_ITEMS:
+                in_last_key, _ = self.cache_data.popitem(True)
+                print("DISCARD:", in_last_key)
         self.cache_data[key] = item
         self.cache_data.move_to_end(key, last=True)
 
-        if len(self.cache_data) > BaseCaching.MAX_ITEMS:
-            last_key, _ = self.cache_data.popitem(last=True)
-            print("DISCARD:", last_key)
-
     def get(self, key):
         """
-        Retrieves an item by key
+        Get an item by key
         """
         return self.cache_data.get(key, None)
+
