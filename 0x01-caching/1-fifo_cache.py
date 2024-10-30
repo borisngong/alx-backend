@@ -14,7 +14,7 @@ class FIFOCache(BaseCaching):
         """Add an item in the cache"""
         if key is None or item is None:
             return
-        
+
         # Add item to the cache and update order list
         if key not in self.cache_data:
             self.order.append(key)
@@ -22,9 +22,8 @@ class FIFOCache(BaseCaching):
 
         # Next we check if we can replace the item base on FIFO
         if len(self.cache_data) > BaseCaching.MAX_ITEMS:
-            oldest_key = self.order.pop(0)
-            del self.cache_data[oldest_key]
-            print(f'DISCARDED: {oldest_key}')
+            first_key, _ = self.cache_data.popitem(False)
+            print("DISCARD:", first_key)
 
     def get(self, key):
         if key is None:
