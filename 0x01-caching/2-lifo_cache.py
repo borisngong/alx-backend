@@ -26,10 +26,10 @@ class LIFOCache(BaseCaching):
             if self.last_key is not None:
                 del self.cache_data[self.last_key]
                 print(f"DISCARD: {self.last_key}")
-                self.last_key = key  # Update the last added key to the current
+                self.last_key = key
 
     def get(self, key):
         """ Get an item by key """
-        if key is None:
+        if key is None or key not in self.cache_data:
             return None
         return self.cache_data.get(key)
