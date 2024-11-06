@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Mock Login System with Locale</title>
+</head>
+<body>
+    <h1>{{ _("Welcome to Holberton") }}</h1>
+    <p>
+        {% if g.user %}
+            {{ _("You are logged in as %(username)s.", username=g.user.name) }}
+        {% else %}
+            {{ _("You are not logged in.") }}
+        {% endif %}
+    </p>
+</body>
+</html>
