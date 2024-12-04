@@ -5,10 +5,10 @@ import { createClient } from "redis";
 
 const app = express();
 const redisClient = createClient({ name: "reserve_seat" });
+const PORT = 1245;
 const reservationQueue = createQueue();
 const INITIAL_SEATS_COUNT = 50;
 let isReservationEnabled = false;
-const PORT = 1245;
 
 const updateAvailableSeats = async (number) => {
   return promisify(redisClient.SET).bind(redisClient)(
